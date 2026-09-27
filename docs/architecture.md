@@ -41,6 +41,35 @@ Agent enrollment uses TCP 1515 and is handled directly by the Wazuh manager serv
 
 Virtual machine snapshots are maintained as recovery points before cybersecurity exercises that may intentionally modify the endpoint state.
 
+## Load Balancing
+
+Nginx provides the agent traffic load-balancing layer for the Wazuh manager cluster.
+
+Wazuh agents connect to the Nginx endpoint for ongoing agent communication rather than directly to an individual manager:
+
+    Wazuh Agent
+         |
+         | TCP 1514
+         v
+    Nginx Load Balancer
+         |
+         +----> Wazuh Master :1514
+         |
+         +----> Wazuh Worker :1514
+
+The Nginx configuration uses the stream module to load-balance TCP/1514
+agent connections between the Wazuh master and worker nodes.
+
+The lab uses consistent hashing based on the client address so that an
+individual endpoint is consistently directed to a backend manager while
+connections can be distributed across the manager nodes.
+
+Agent enrollment uses TCP/1515 and is handled separately by the Wazuh
+manager service.
+
+This design provides a single agent-facing endpoint and avoids configuring
+each endpoint with individual manager-node addresses.
+
 ## Network Layer
 
 VirtualBox provides the virtual-machine networking. The lab uses a private NAT Network for communication between the endpoint VMs and the Docker-based Wazuh infrastructure.
