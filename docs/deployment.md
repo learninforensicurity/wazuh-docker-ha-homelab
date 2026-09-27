@@ -79,3 +79,33 @@ To stop the stack:
 - Do not publish credential-bearing local configuration files.
 - Keep a backup of working configuration before making major changes.
 - Verify cluster health after configuration changes.
+
+## Debian Agent - Real-Time File Integrity Monitoring
+
+The Debian test agent is configured to monitor `/etc` in real time using Wazuh File Integrity Monitoring (FIM).
+
+The relevant agent configuration is:
+
+    <syscheck>
+      <disabled>no</disabled>
+      <frequency>43200</frequency>
+      <scan_on_start>yes</scan_on_start>
+      <directories realtime="yes">/etc</directories>
+      <directories>/usr/bin,/usr/sbin</directories>
+      <directories>/bin,/sbin,/boot</directories>
+    </syscheck>
+
+The `/etc` directory is monitored in real time, while the other configured directories continue to use scheduled scanning.
+
+### FIM Verification
+
+A controlled test file was created under `/etc`, modified, and deleted.
+
+The Wazuh manager successfully generated:
+
+- Rule 550 - Integrity checksum changed
+- Rule 553 - File deleted
+
+The events were received from `Debian-Agent` (agent ID `001`) and displayed in the Wazuh Dashboard under File Integrity Monitoring.
+
+The test file was removed after testing.
