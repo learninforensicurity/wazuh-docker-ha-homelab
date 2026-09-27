@@ -15,7 +15,31 @@ The server infrastructure consists of:
 
 ## Endpoint Layer
 
-The lab includes Debian-based virtual machines running Wazuh agents. Additional authorized endpoints can be added as the lab expands.
+The lab currently includes three authorized Wazuh endpoints:
+
+- Debian Linux VM - Wazuh agent 001
+- Physical Windows 10 Pro endpoint - Wazuh agent 002
+- Windows 7 Enterprise VM - Wazuh agent 003
+
+The Windows 7 VM is retained as a controlled legacy Windows endpoint for cybersecurity training and testing.
+
+The Debian and Windows 7 virtual machines are connected to the VirtualBox NAT Network used by the lab. The physical Windows 10 endpoint communicates with the Docker-based Wazuh infrastructure over the host LAN.
+
+## Endpoint Network Layout
+
+The current lab endpoint networks are:
+
+    VirtualBox NAT Network
+    192.168.100.0/24
+
+    Physical LAN
+    192.168.29.0/24
+
+Wazuh agent traffic uses TCP 1514. The Nginx layer load-balances agent traffic between the Wazuh master and worker managers.
+
+Agent enrollment uses TCP 1515 and is handled directly by the Wazuh manager service.
+
+Virtual machine snapshots are maintained as recovery points before cybersecurity exercises that may intentionally modify the endpoint state.
 
 ## Network Layer
 
