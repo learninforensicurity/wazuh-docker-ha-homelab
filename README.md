@@ -20,28 +20,87 @@ The environment is intentionally designed to reduce the number of virtual machin
 
 ## Architecture
 
-The lab uses a Docker-based Wazuh high-availability architecture:
+The lab uses a Docker-based Wazuh high-availability architecture designed for cybersecurity monitoring, endpoint telemetry collection, clustered management, indexed event storage, and practical security experimentation.
 
-    Wazuh Dashboard (HTTPS/443)
+### High-Level Architecture
 
-             |
+The Wazuh infrastructure runs on the Windows host using Docker Desktop with the WSL2 backend. Nginx provides the TCP load-balancing layer for Wazuh agent traffic and distributes connections across the Wazuh manager master and worker nodes.
 
-            Nginx
+The environment currently includes:
 
-             |
+- **2 Wazuh Managers** — master and worker
+- **3 Wazuh Indexers** — three-node indexer cluster
+- **1 Wazuh Dashboard** — web-based monitoring interface
+- **1 Nginx Load Balancer** — TCP/1514 agent traffic
+- **3 Wazuh Agents** — Debian VM, Windows 7 VM, and physical Windows 10 system
+- **Docker Desktop + WSL2** — container runtime on the Windows host
+- **VirtualBox NAT Network** — connectivity for the lab VMs
 
-      +------+------+
-      |             |
-Wazuh Manager   Wazuh Manager
-   Master          Worker
-      |             |
-      +------+------+
-             |
+### Architecture Diagram
 
-     Wazuh Indexer
-      3-node cluster
+The editable draw.io source is maintained in the repository:
 
-Endpoints connect to the Wazuh manager cluster and send security telemetry for monitoring and analysis.
+**[Open the Wazuh HA Architecture Diagram](docs/diagrams/wazuh-ha-architecture.drawio)**
+
+The diagram documents:
+
+- Windows host and Docker Desktop/WSL2 boundary
+- Docker network and container IP addresses
+- Nginx **LOAD BALANCER**
+- Wazuh manager master/worker cluster
+- Three-node Wazuh indexer cluster
+- Wazuh Dashboard
+- Debian, Windows 7, and Windows 10 endpoints
+- Endpoint network boundaries
+- IP addresses and service ports
+- Agent traffic and cluster communication paths
+- Operational data flow through the Wazuh infrastructure
+
+### Current Lab Network
+
+| Network / Component | Address |
+|---|---|
+| Docker network | `172.18.0.0/16` |
+| Docker host LAN | `192.168.29.152` |
+| VirtualBox NAT Network | `192.168.100.0/24` |
+| Debian Agent 001 | `192.168.100.25` |
+| Windows 7 Agent 003 | `192.168.100.17` |
+| Windows 10 Agent 002 | `192.168.29.97` |
+| Nginx Load Balancer | `172.18.0.2` |
+| Wazuh Master | `172.18.0.3` |
+| Wazuh Dashboard | `172.18.0.4` |
+| Wazuh Worker | `172.18.0.6` |
+| Wazuh Indexer 1 | `172.18.0.8` |
+| Wazuh Indexer 2 | `172.18.0.5` |
+| Wazuh Indexer 3 | `172.18.0.7` |
+
+> **Note:** Docker container IP addresses are runtime addresses and may change when the Docker environment is recreated. Service names should be preferred for container-to-container communication.
+
+### Main Traffic Paths
+
+```text
+Wazuh Agents
+     |
+     | TCP/1514
+     v
+NGINX LOAD BALANCER
+     |
+     +-------------------+
+     |                   |
+     v                   v
+Wazuh Master         Wazuh Worker
+     |                   |
+     +---------+---------+
+               |
+               v
+       Wazuh Indexer Cluster
+        +------+------+
+        |      |      |
+     Indexer1 Indexer2 Indexer3
+               |
+               v
+       Wazuh Dashboard
+            HTTPS/443
 
 ### Main Components
 
