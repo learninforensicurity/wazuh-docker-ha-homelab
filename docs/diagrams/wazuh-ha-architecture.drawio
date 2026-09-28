@@ -1,61 +1,164 @@
-<mxfile host="app.diagrams.net" modified="2026-09-28T10:00:00.000Z" agent="ChatGPT" version="24.7.17">
-<diagram id="wazuh-ha" name="Wazuh HA Architecture">
-<mxGraphModel dx="1400" dy="1000" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1600" pageHeight="1100">
-<root>
-<mxCell id="0"/><mxCell id="1" parent="0"/>
-<mxCell id="host" value="WINDOWS HOST / DOCKER DESKTOP + WSL2&#xa;Host LAN IP: 192.168.29.152" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=3;fontStyle=1;verticalAlign=top;spacingTop=10;" vertex="1" parent="1"><mxGeometry x="40" y="40" width="1040" height="760" as="geometry"/></mxCell>
-<mxCell id="docker" value="DOCKER NETWORK — current observed subnet: 172.18.0.0/16" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eaf3ff;strokeColor=#4a86e8;strokeWidth=2;fontStyle=1;verticalAlign=top;spacingTop=10;" vertex="1" parent="1"><mxGeometry x="70" y="100" width="980" height="590" as="geometry"/></mxCell>
-<mxCell id="nginx" value="NGINX LOAD BALANCER&#xa;Current Docker IP: 172.18.0.2&#xa;TCP/1514 — Wazuh Agent Traffic&#xa;Consistent hashing: $remote_addr" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=3;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="360" y="150" width="400" height="100" as="geometry"/></mxCell>
-<mxCell id="dash" value="WAZUH DASHBOARD&#xa;172.18.0.4&#xa;HTTPS/443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="780" y="150" width="220" height="90" as="geometry"/></mxCell>
-<mxCell id="master" value="WAZUH MANAGER — MASTER&#xa;172.18.0.3&#xa;TCP/1514 • API/55000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="190" y="320" width="270" height="100" as="geometry"/></mxCell>
-<mxCell id="worker" value="WAZUH MANAGER — WORKER&#xa;172.18.0.6&#xa;TCP/1514" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="620" y="320" width="270" height="100" as="geometry"/></mxCell>
-<mxCell id="i1" value="INDEXER 1&#xa;172.18.0.8 • 9200" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="130" y="500" width="230" height="90" as="geometry"/></mxCell>
-<mxCell id="i2" value="INDEXER 2&#xa;172.18.0.5 • 9200" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="405" y="500" width="230" height="90" as="geometry"/></mxCell>
-<mxCell id="i3" value="INDEXER 3&#xa;172.18.0.7 • 9200" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="680" y="500" width="230" height="90" as="geometry"/></mxCell>
-<mxCell id="nat" value="SAIF NATNETWORK&#xa;192.168.100.0/24&#xa;Gateway: 192.168.100.1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontStyle=1;verticalAlign=top;spacingTop=10;" vertex="1" parent="1"><mxGeometry x="70" y="730" width="480" height="260" as="geometry"/></mxCell>
-<mxCell id="debian" value="DEBIAN VM — AGENT 001&#xa;192.168.100.25&#xa;Wazuh 4.14.8" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="95" y="820" width="200" height="100" as="geometry"/></mxCell>
-<mxCell id="win7" value="WINDOWS 7 VM — AGENT 003&#xa;192.168.100.17&#xa;Wazuh 4.14.8" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="325" y="820" width="200" height="100" as="geometry"/></mxCell>
-<mxCell id="lan" value="PHYSICAL LAN&#xa;192.168.29.0/24&#xa;Gateway: 192.168.29.1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontStyle=1;verticalAlign=top;spacingTop=10;" vertex="1" parent="1"><mxGeometry x="590" y="730" width="490" height="260" as="geometry"/></mxCell>
-<mxCell id="win10" value="PHYSICAL WINDOWS 10 — AGENT 002&#xa;192.168.29.97&#xa;Wazuh 4.14.8" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="735" y="820" width="250" height="100" as="geometry"/></mxCell>
-<mxCell id="ports" value="TRAFFIC SUMMARY&#xa;Agent communication: TCP/1514 via Nginx&#xa;Enrollment: TCP/1515 to Wazuh manager&#xa;Dashboard: HTTPS/443&#xa;Wazuh API: TCP/55000&#xa;Indexer: TCP/9200" style="shape=note;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1"><mxGeometry x="110" y="620" width="700" height="100" as="geometry"/></mxCell>
-<mxCell id="note" value="Docker IPs shown are current observed runtime addresses and may change after container/network recreation. Docker service names are the stable references." style="shape=note;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1"><mxGeometry x="830" y="620" width="180" height="100" as="geometry"/></mxCell>
-<mxCell id="e1" value="TCP/1514" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="nginx" target="master"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="e2" value="TCP/1514" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="nginx" target="worker"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="e3" value="Indexer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="master" target="i1"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="e4" value="Indexer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="master" target="i2"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="e5" value="Indexer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="master" target="i3"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="e6" value="Indexer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="worker" target="i1"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="e7" value="Indexer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="worker" target="i2"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="e8" value="Indexer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="worker" target="i3"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="e9" value="Wazuh API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="dash" target="master"><mxGeometry relative="1" as="geometry"/></mxCell>
-</root>
-</mxGraphModel>
-</diagram>
-
-  <diagram id="wazuh-flow" name="Operational Flow">
-    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1400" pageHeight="900">
+<mxfile host="app.diagrams.net" agent="ChatGPT" pages="2">
+  <diagram id="wazuh-ha" name="Wazuh HA Architecture">
+    <mxGraphModel dx="1435" dy="6288" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
       <root>
-        <mxCell id="flow0"/>
-        <mxCell id="flow1" parent="flow0"/>
-        
-<mxCell id="flow_title" value="WAZUH HA HOMELAB — OPERATIONAL FLOW" style="text;html=1;strokeColor=none;fillColor=none;fontSize=24;fontStyle=1;" vertex="1" parent="flow1"><mxGeometry x="120" y="40" width="1160" height="50" as="geometry"/></mxCell>
-<mxCell id="flow_step1" value="1. WAZUH ENDPOINTS&#xa;Debian • Windows 10 • Windows 7&#xa;Agents 001 / 002 / 003" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;strokeWidth=2;fontStyle=1;" vertex="1" parent="flow1"><mxGeometry x="80" y="150" width="260" height="110" as="geometry"/></mxCell>
-<mxCell id="flow_nginx" value="2. NGINX LOAD BALANCER&#xa;172.18.0.2&#xa;TCP/1514&#xa;Consistent hashing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=3;fontStyle=1;" vertex="1" parent="flow1"><mxGeometry x="430" y="150" width="300" height="110" as="geometry"/></mxCell>
-<mxCell id="flow_mgr" value="3. WAZUH MANAGER CLUSTER&#xa;Master: 172.18.0.3&#xa;Worker: 172.18.0.6&#xa;TCP/1514" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontStyle=1;" vertex="1" parent="flow1"><mxGeometry x="820" y="150" width="300" height="110" as="geometry"/></mxCell>
-<mxCell id="flow_index" value="4. WAZUH INDEXER CLUSTER&#xa;Indexer 1: 172.18.0.8&#xa;Indexer 2: 172.18.0.5&#xa;Indexer 3: 172.18.0.7&#xa;TCP/9200" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontStyle=1;" vertex="1" parent="flow1"><mxGeometry x="820" y="360" width="300" height="145" as="geometry"/></mxCell>
-<mxCell id="flow_dash" value="5. WAZUH DASHBOARD&#xa;172.18.0.4&#xa;HTTPS/443&#xa;Analysts / Browser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;fontStyle=1;" vertex="1" parent="flow1"><mxGeometry x="430" y="390" width="300" height="110" as="geometry"/></mxCell>
-<mxCell id="flow_enroll" value="ENROLLMENT PATH&#xa;Agents → Manager : TCP/1515&#xa;Separate from Nginx agent traffic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;" vertex="1" parent="flow1"><mxGeometry x="80" y="390" width="260" height="110" as="geometry"/></mxCell>
-<mxCell id="flow_alert" value="EVENT / ALERT FLOW&#xa;Endpoint event → Manager analysis → Indexing → Dashboard visualization&#xa;&#xa;FIM • Windows Event Logs • Authentication • Security telemetry" style="shape=note;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="flow1"><mxGeometry x="250" y="590" width="760" height="125" as="geometry"/></mxCell>
-
-<mxCell id="fe1" value="TCP/1514" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="flow1" source="flow_step1" target="flow_nginx"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="fe2" value="TCP/1514" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="flow1" source="flow_nginx" target="flow_mgr"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="fe3" value="Events / alerts" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="flow1" source="flow_mgr" target="flow_index"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="fe4" value="HTTPS/443 + API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="flow1" source="flow_dash" target="flow_mgr"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="fe5" value="Indexed data" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" edge="1" parent="flow1" source="flow_index" target="flow_dash"><mxGeometry relative="1" as="geometry"/></mxCell>
-<mxCell id="fe6" value="TCP/1515" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;dashed=1;endArrow=block;" edge="1" parent="flow1" source="flow_step1" target="flow_enroll"><mxGeometry relative="1" as="geometry"/></mxCell>
-
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="_AkEx3S5p5I6SKBcZRKL-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=3;fontStyle=1;verticalAlign=top;spacingTop=10;align=center;" value="&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(178, 102, 255)); font-size: 20px;&quot;&gt;Wazuh High Availability Architecture: Home CyberLab Setup&lt;/font&gt;" vertex="1">
+          <mxGeometry height="1510" width="1155" x="122.5" y="-1840" as="geometry" />
+        </mxCell>
+        <mxCell id="host" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=3;fontStyle=1;verticalAlign=top;spacingTop=10;" value="WINDOWS HOST / DOCKER DESKTOP + WSL2&#xa;Host LAN IP: 192.168.29.152" vertex="1">
+          <mxGeometry height="1050" width="1040" x="180" y="-1750" as="geometry" />
+        </mxCell>
+        <mxCell id="docker" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eaf3ff;strokeColor=#4a86e8;strokeWidth=2;fontStyle=1;verticalAlign=top;spacingTop=10;" value="DOCKER NETWORK — current observed subnet: 172.18.0.0/16" vertex="1">
+          <mxGeometry height="590" width="980" x="220" y="-1670" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=3;fontStyle=1;" value="NGINX LOAD BALANCER&#xa;Current Docker IP: 172.18.0.2&#xa;TCP/1514 — Wazuh Agent Traffic&#xa;Consistent hashing: $remote_addr" vertex="1">
+          <mxGeometry height="100" width="400" x="510" y="-1620" as="geometry" />
+        </mxCell>
+        <mxCell id="dash" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;" value="WAZUH DASHBOARD&#xa;172.18.0.4&#xa;HTTPS/443" vertex="1">
+          <mxGeometry height="90" width="220" x="920" y="-1580" as="geometry" />
+        </mxCell>
+        <mxCell id="master" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" value="WAZUH MANAGER — MASTER&#xa;172.18.0.3&#xa;TCP/1514 • API/55000" vertex="1">
+          <mxGeometry height="100" width="270" x="340" y="-1450" as="geometry" />
+        </mxCell>
+        <mxCell id="worker" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" value="WAZUH MANAGER — WORKER&#xa;172.18.0.6&#xa;TCP/1514" vertex="1">
+          <mxGeometry height="100" width="270" x="770" y="-1450" as="geometry" />
+        </mxCell>
+        <mxCell id="i1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;" value="INDEXER 1&#xa;172.18.0.8 • 9200" vertex="1">
+          <mxGeometry height="90" width="230" x="280" y="-1270" as="geometry" />
+        </mxCell>
+        <mxCell id="i2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;" value="INDEXER 2&#xa;172.18.0.5 • 9200" vertex="1">
+          <mxGeometry height="90" width="230" x="555" y="-1270" as="geometry" />
+        </mxCell>
+        <mxCell id="i3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;" value="INDEXER 3&#xa;172.18.0.7 • 9200" vertex="1">
+          <mxGeometry height="90" width="230" x="830" y="-1270" as="geometry" />
+        </mxCell>
+        <mxCell id="nat" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontStyle=1;verticalAlign=top;spacingTop=10;" value="SAIF NATNETWORK&#xa;192.168.100.0/24&#xa;Gateway: 192.168.100.1" vertex="1">
+          <mxGeometry height="230" width="480" x="460" y="-1040" as="geometry" />
+        </mxCell>
+        <mxCell id="debian" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;strokeWidth=2;" value="DEBIAN VM — AGENT 001&#xa;192.168.100.25&#xa;Wazuh 4.14.8" vertex="1">
+          <mxGeometry height="100" width="200" x="471" y="-960" as="geometry" />
+        </mxCell>
+        <mxCell id="win7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;strokeWidth=2;" value="WINDOWS 7 VM — AGENT 003&#xa;192.168.100.17&#xa;Wazuh 4.14.8" vertex="1">
+          <mxGeometry height="100" width="200" x="730" y="-960" as="geometry" />
+        </mxCell>
+        <mxCell id="lan" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontStyle=1;verticalAlign=top;spacingTop=10;" value="PHYSICAL LAN&#xa;192.168.29.0/24&#xa;Gateway: 192.168.29.1" vertex="1">
+          <mxGeometry height="210" width="415" x="502.5" y="-580" as="geometry" />
+        </mxCell>
+        <mxCell id="win10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;strokeWidth=2;" value="PHYSICAL WINDOWS 10 — AGENT 002&#xa;192.168.29.97&#xa;Wazuh 4.14.8" vertex="1">
+          <mxGeometry height="100" width="250" x="585" y="-490" as="geometry" />
+        </mxCell>
+        <mxCell id="ports" parent="1" style="shape=note;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="TRAFFIC SUMMARY&#xa;Agent communication: TCP/1514 via Nginx&#xa;Enrollment: TCP/1515 to Wazuh manager&#xa;Dashboard: HTTPS/443&#xa;Wazuh API: TCP/55000&#xa;Indexer: TCP/9200" vertex="1">
+          <mxGeometry height="100" width="700" x="260" y="-1150" as="geometry" />
+        </mxCell>
+        <mxCell id="note" parent="1" style="shape=note;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Docker IPs shown are current observed runtime addresses and may change after container/network recreation. Docker service names are the stable references." vertex="1">
+          <mxGeometry height="100" width="180" x="980" y="-1150" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="nginx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" target="master" value="TCP/1514">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="nginx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" target="worker" value="TCP/1514">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="master" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" target="i1" value="Indexer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="master" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" target="i2" value="Indexer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" value="Indexer">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="945" y="-1370" />
+            </Array>
+            <mxPoint x="610" y="-1370" as="sourcePoint" />
+            <mxPoint x="945" y="-1260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="worker" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" target="i1" value="Indexer">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="395" y="-1360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="worker" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" target="i2" value="Indexer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="worker" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" target="i3" value="Indexer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" value="Wazuh API">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="920" y="-1529.9999999999995" as="sourcePoint" />
+            <mxPoint x="465" y="-1405" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_AkEx3S5p5I6SKBcZRKL-9" parent="1" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.twoWayArrow;dy=0.65;dx=22;direction=south;" value="" vertex="1">
+          <mxGeometry height="100" width="30" x="696" y="-690" as="geometry" />
+        </mxCell>
+        <mxCell id="_AkEx3S5p5I6SKBcZRKL-10" parent="1" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.twoWayArrow;dy=0.65;dx=22;direction=south;" value="" vertex="1">
+          <mxGeometry height="100" width="30" x="695" y="-810" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
-
+  <diagram id="wazuh-flow" name="Operational Flow">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="flow0" />
+        <mxCell id="flow1" parent="flow0" />
+        <mxCell id="flow_title" parent="flow1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=24;fontStyle=1;" value="WAZUH HA HOMELAB — OPERATIONAL FLOW" vertex="1">
+          <mxGeometry height="50" width="1160" x="120" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_step1" parent="flow1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;strokeWidth=2;fontStyle=1;" value="1. WAZUH ENDPOINTS&#xa;Debian • Windows 10 • Windows 7&#xa;Agents 001 / 002 / 003" vertex="1">
+          <mxGeometry height="110" width="260" x="80" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_nginx" parent="flow1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=3;fontStyle=1;" value="2. NGINX LOAD BALANCER&#xa;172.18.0.2&#xa;TCP/1514&#xa;Consistent hashing" vertex="1">
+          <mxGeometry height="110" width="300" x="430" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_mgr" parent="flow1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontStyle=1;" value="3. WAZUH MANAGER CLUSTER&#xa;Master: 172.18.0.3&#xa;Worker: 172.18.0.6&#xa;TCP/1514" vertex="1">
+          <mxGeometry height="110" width="300" x="820" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_index" parent="flow1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontStyle=1;" value="4. WAZUH INDEXER CLUSTER&#xa;Indexer 1: 172.18.0.8&#xa;Indexer 2: 172.18.0.5&#xa;Indexer 3: 172.18.0.7&#xa;TCP/9200" vertex="1">
+          <mxGeometry height="145" width="300" x="820" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_dash" parent="flow1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;fontStyle=1;" value="5. WAZUH DASHBOARD&#xa;172.18.0.4&#xa;HTTPS/443&#xa;Analysts / Browser" vertex="1">
+          <mxGeometry height="110" width="300" x="430" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_enroll" parent="flow1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;" value="ENROLLMENT PATH&#xa;Agents → Manager : TCP/1515&#xa;Separate from Nginx agent traffic" vertex="1">
+          <mxGeometry height="110" width="260" x="80" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_alert" parent="flow1" style="shape=note;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" value="EVENT / ALERT FLOW&#xa;Endpoint event → Manager analysis → Indexing → Dashboard visualization&#xa;&#xa;FIM • Windows Event Logs • Authentication • Security telemetry" vertex="1">
+          <mxGeometry height="125" width="760" x="250" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="fe1" edge="1" parent="flow1" source="flow_step1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" target="flow_nginx" value="TCP/1514">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe2" edge="1" parent="flow1" source="flow_nginx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" target="flow_mgr" value="TCP/1514">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe3" edge="1" parent="flow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" value="Events / alerts">
+          <mxGeometry relative="1" y="50" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1000" y="260" as="sourcePoint" />
+            <mxPoint x="1000" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fe4" edge="1" parent="flow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;entryX=0.402;entryY=1.028;entryDx=0;entryDy=0;entryPerimeter=0;" target="flow_mgr" value="HTTPS/443 + API">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="690" y="390" as="sourcePoint" />
+            <mxPoint x="939.1000000000001" y="272.30999999999995" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fe5" edge="1" parent="flow1" source="flow_index" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;endArrow=block;" target="flow_dash" value="Indexed data">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe6" edge="1" parent="flow1" source="flow_step1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;dashed=1;endArrow=block;" target="flow_enroll" value="TCP/1515">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
 </mxfile>
