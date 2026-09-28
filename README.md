@@ -40,7 +40,9 @@ The environment currently includes:
 
 The editable draw.io source is maintained in the repository:
 
-**[Open the Wazuh HA Architecture Diagram](docs/diagrams/wazuh-ha-architecture.drawio)**
+![Wazuh HA Architecture](docs/diagrams/wazuh-ha-architecture.svg)
+
+**Editable source:** [Wazuh HA Architecture Diagram](docs/diagrams/wazuh-ha-architecture.drawio)
 
 The diagram documents:
 
